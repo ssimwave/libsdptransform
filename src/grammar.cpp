@@ -1007,13 +1007,14 @@ namespace sdptransform
 					},
 
 					// a=source-filter: incl IN IP4 239.5.2.31 10.1.15.5
+					// a=source-filter:incl IN IP4 239.5.2.31 10.1.15.5
 					{
 						// name:
 						"sourceFilter",
 						// push:
 						"",
 						// reg:
-						std::regex("^source-filter:[\\s\\t]+(excl|incl) (\\S*) (IP4|IP6|\\*) (\\S*) (.*)"),
+						std::regex("^source-filter:[\\s\\t]*(excl|incl) (\\S*) (IP4|IP6|\\*) (\\S*) (.*)"),
 						// names:
 						{ "filterMode", "netType", "addressTypes", "destAddress", "srcList" },
 						// types:

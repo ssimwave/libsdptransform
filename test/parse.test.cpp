@@ -872,19 +872,22 @@ SCENARIO("st2110-20Sdp", "[parse]")
 	// No invalid node
 	REQUIRE(media.find("invalid") == media.end());
 
+	// Both primary and secondary media essence entries are found.
+	REQUIRE(media.size() == 2);
+
 	// Check sourceFilter node exists.
-	auto& video = media[0];
-	REQUIRE(video.find("sourceFilter") != video.end());
-	auto& sourceFilter = video.at("sourceFilter");
+	auto& primaryVideo = media[0];
+	REQUIRE(primaryVideo.find("sourceFilter") != primaryVideo.end());
+	auto& primarySourceFilter = primaryVideo.at("sourceFilter");
 
 	// Check expected values are present.
-	REQUIRE(sourceFilter.at("filterMode") == "incl");
-	REQUIRE(sourceFilter.at("netType") == "IN");
-	REQUIRE(sourceFilter.at("addressTypes") == "IP4");
-	REQUIRE(sourceFilter.at("destAddress") == "239.100.9.10");
-	REQUIRE(sourceFilter.at("srcList") == "192.168.100.2");
+	REQUIRE(primarySourceFilter.at("filterMode") == "incl");
+	REQUIRE(primarySourceFilter.at("netType") == "IN");
+	REQUIRE(primarySourceFilter.at("addressTypes") == "IP4");
+	REQUIRE(primarySourceFilter.at("destAddress") == "239.100.9.10");
+	REQUIRE(primarySourceFilter.at("srcList") == "192.168.100.2");
 
-	auto fmtp0Params = sdptransform::parseParams(video.at("fmtp")[0].at("config"));
+	auto fmtp0Params = sdptransform::parseParams(primaryVideo.at("fmtp")[0].at("config"));
 
 	REQUIRE(
 		fmtp0Params ==
@@ -901,6 +904,18 @@ SCENARIO("st2110-20Sdp", "[parse]")
 			"SSN"            : "ST2110-20:2017"
 		})"_json
 	);
+
+	// Check sourceFilter node exists.
+	auto& secondaryVideo = media[0];
+	REQUIRE(secondaryVideo.find("sourceFilter") != secondaryVideo.end());
+	auto& secondarySourceFilter = secondaryVideo.at("sourceFilter");
+
+	// Check expected values are present.
+	REQUIRE(secondarySourceFilter.at("filterMode") == "incl");
+	REQUIRE(secondarySourceFilter.at("netType") == "IN");
+	REQUIRE(secondarySourceFilter.at("addressTypes") == "IP4");
+	REQUIRE(secondarySourceFilter.at("destAddress") == "239.100.9.10");
+	REQUIRE(secondarySourceFilter.at("srcList") == "192.168.100.2");
 }
 
 SCENARIO("aes67", "[parse]")
