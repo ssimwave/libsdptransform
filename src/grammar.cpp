@@ -531,19 +531,30 @@ namespace sdptransform
 					},
 
 					// a=ptime:20
+					// a=ptime:0.125
 					{
 						// name:
 						"ptime",
 						// push:
 						"",
 						// reg:
-						std::regex("^ptime:(\\d*)"),
+						std::regex("^ptime:(\\d+(?:$|\\.\\d+))"),
 						// names:
 						{ },
 						// types:
-						{ 'd' },
+						{ 'f' },
 						// format:
-						"ptime:%d"
+						"",
+						// formatFunc:
+						[](const json& o)
+						{
+							const auto value = o.get<float>();
+							if (ceilf(value) == value) {
+								// Only writes fractional component if it is non-zero
+								return std::string{"ptime:"} + std::to_string(static_cast<unsigned>(value)) + std::string{"%v"};
+							}
+							return std::string{"ptime:%s"};
+						}
 					},
 
 					// a=maxptime:60
