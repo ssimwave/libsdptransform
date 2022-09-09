@@ -531,19 +531,20 @@ namespace sdptransform
 					},
 
 					// a=ptime:20
+					// a=ptime:0.125
 					{
 						// name:
 						"ptime",
 						// push:
 						"",
 						// reg:
-						std::regex("^ptime:(\\d*)"),
+						std::regex("^ptime:(\\d+(?:$|\\.\\d+))"),
 						// names:
 						{ },
 						// types:
-						{ 'd' },
+						{ 'f' },
 						// format:
-						"ptime:%d"
+						"ptime:%s"
 					},
 
 					// a=maxptime:60
