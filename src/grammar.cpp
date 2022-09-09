@@ -544,17 +544,7 @@ namespace sdptransform
 						// types:
 						{ 'f' },
 						// format:
-						"",
-						// formatFunc:
-						[](const json& o)
-						{
-							const auto value = o.get<float>();
-							if (ceilf(value) == value) {
-								// Only writes fractional component if it is non-zero
-								return std::string{"ptime:"} + std::to_string(static_cast<unsigned>(value)) + std::string{"%v"};
-							}
-							return std::string{"ptime:%s"};
-						}
+						"ptime:%s"
 					},
 
 					// a=maxptime:60
